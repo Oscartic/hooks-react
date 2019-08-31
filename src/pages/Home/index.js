@@ -1,43 +1,48 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { Container, Typography, Card, Grid, TextField, Button } from '@material-ui/core';
 
-import { getDemoRequest } from '../../redux/actions/demoActions';
+import styles from './style';
 
-import User from '../../components/User';
+ 	export default () => {
 
-class Home extends Component {
-	componentWillMount() {
-		this.props.getDemoRequest('hey');
-	}
-	render() {
-		const { users } = this.props;
+		const  [ searchText, setSearchText ] = useState('');
 
-		let items = [];
-		if (typeof users !== 'undefined') {
-			items = users.map((value, index) => {
-				return <User key={index} {...value} />;
-			});
+		const classes = styles();
+
+		const handleSearchTextChange = event => {
+			setSearchText(event.target.value);	
 		}
-		return <div>{items}</div>;
-	}
-}
 
-const mapDispatchToProps = (dispatch, props) => {
-	return {
-		getDemoRequest: payload => {
-			dispatch(getDemoRequest(payload));
+		const handleCleanText = event => {
+			console.log("limpia")
 		}
-	};
-};
-const mapStateToProps = state => {
-	return {
-		users: state.demoReducer[0]
-	};
-};
-
-Home.propTypes = {
-	dispatch: PropTypes.func
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+		const handleSearchText = event => {
+			console.log("busca")
+		}
+		return (
+			<Container className={classes.container}>
+				<Card className={classes.cardContainer}>
+					<Grid container className={classes.titleGridContainer}>
+						<Grid>
+							<Typography className={classes.title}>
+								Bienvenido!
+							</Typography>
+						</Grid>	
+						<Grid>
+							<label>Icono</label>
+						</Grid>
+					</Grid>
+					<TextField
+						value={ searchText }
+						className={classes.textFieldSearch}
+						placeholder="Buscar..."
+						onChange={ handleSearchTextChange }
+					/>
+					<Grid className={classes.buttonsContainer}>
+						<Button variant="contained" onClick={handleCleanText}>Limpiar</Button>
+						<Button variant="contained" className={classes.searchButtom} color="primary" size="large" onClick={handleSearchText}>Buscar</Button>
+					</Grid>
+				</Card>
+			</Container>
+		)
+	 }
