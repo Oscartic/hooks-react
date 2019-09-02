@@ -7,4 +7,4 @@ export const apiCall = (url, data, headers, method) => axios({
     url: baseURL + url,
     data, 
     headers
-})
+});
